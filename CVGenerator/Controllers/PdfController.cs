@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace CVGenerator.Controllers
 {
     [Route("cv/[controller]")]
-    // for http get request to download the cv
     [ApiController]
     public class PdfController : ControllerBase
     {
@@ -15,13 +14,18 @@ namespace CVGenerator.Controllers
             _pdfGeneration = pdfGeneration;
         }
 
+        /*Generates a PDF file from the CV data.
+        * Download a PDF file on success
+        */
         [HttpGet]
-        public IActionResult GeneratePdf(/*string html*/)
+        public IActionResult GeneratePdf()
         {
             Console.WriteLine("GetPDF GET");
             var pdf = _pdfGeneration.GenerateAlphaPdf(/*html*/);
             Console.WriteLine("Download complete");
-            return File(pdf.Result, "application/pdf", "CV.pdf");
+
+            var fileName = CvController.cvDataModel.Name + "_CV.pdf";
+            return File(pdf.Result, "application/pdf", fileName);
         }
     }
 }

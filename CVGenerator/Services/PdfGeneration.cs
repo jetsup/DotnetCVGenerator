@@ -1,10 +1,16 @@
-using CVGenerator.Models;
+using CVGenerator.Controllers;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using Razor.Templating.Core;
 
 namespace CVGenerator.Services
 {
+    /*
+    * This class is used to generate a PDF file from the CV data.
+    * It uses the DinkToPdf library to convert the HTML to a PDF file.
+    * The HTML is generated using the Razor.Templating.Core library.
+    * The GenerateAlphaPdf method generates the PDF file.
+    */
     public class PdfGeneration
     {
         private IConverter _converter;
@@ -15,6 +21,7 @@ namespace CVGenerator.Services
 
         public async Task<byte[]> GenerateAlphaPdf(/*string html*/)
         {
+            // Set the global settings for the PDF
             var globalSettings = new GlobalSettings
             {
                 ColorMode = ColorMode.Color,
@@ -24,38 +31,29 @@ namespace CVGenerator.Services
                 DocumentTitle = "CV"
             };
 
-            var cvDataModel = new CVModel
-            {
-                Name = "John Doe",
-                Phone = "1234567890",
-                Email = "doe@mail.com",
-                Address = "123, Doe Street, Doe City, Doe Country",
-                ProfessionalSummary = "Network Engineer with 5 years of experience in network design and implementation\nSoftware Developer with 3 years of experience in web development",
-                WorkExperience = "Software Developer,Safaricom,2020-2021\nWeb Developer,Google,2019-2020\nIntern,Microsoft,2018-2019",
-                EducationBackground = "Bachelor of Science in Computer Science,University of Nairobi,2018\nDiploma in Information Technology,JKUAT,2015\nCertificate in Web Development,Strathmore University,2014",
-                Skills = "Coding,Intermediate\nDesign,Advanced\nWriting,Beginner",
-                Languages = "English,Beginner\nFrench,Intermediate\nSpanish,Advanced"
-            };
+            // Get the CV data model. This is the data that was entered in the form.
+            var cvDataModel = CvController.cvDataModel;
+
+            // Render the HTML using the Razor template engine
             var html = await RazorTemplateEngine.RenderPartialAsync("Views/CV/Preview.cshtml", cvDataModel, null);
 
+            // Set the object settings for the PDF. This includes the HTML content and the web settings.
             var objectSettings = new ObjectSettings
             {
                 HtmlContent = html,
                 WebSettings = { DefaultEncoding = "utf-8" },
             };
 
+            // Create the PDF document.
             var doc = new HtmlToPdfDocument()
             {
                 GlobalSettings = globalSettings,
                 Objects = { objectSettings }
             };
-
-            var pdfBytes = new byte[3];
-
+            _ = new byte[3];
+            byte[]? pdfBytes;
             try
             {
-                Console.WriteLine("PDF Generated: " + html + ":>>>" + _converter.ToString() + "<<<:");
-
                 pdfBytes = _converter.Convert(doc);
             }
             catch (Exception ex)
@@ -63,11 +61,6 @@ namespace CVGenerator.Services
                 Console.WriteLine("PDF Generation failed: " + ex.Message);
                 throw;
             }
-
-            Console.Write("PDF Bytes: ");
-            Console.WriteLine(pdfBytes.ToString() + "<<<<");
-
-            // return File(pdfBytes, "application/pdf", "CV.pdf");
             return pdfBytes;
         }
     }

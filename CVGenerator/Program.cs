@@ -4,10 +4,6 @@ using DinkToPdf.Contracts;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add my pdf download service to the container
-// builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
-// builder.Services.AddScoped<PdfGeneration>();
-
 builder.Services.AddSingleton<IConverter, SynchronizedConverter>(_ => new SynchronizedConverter(new PdfTools()));
 // Add PdfGeneration to the DI container
 builder.Services.AddScoped<PdfGeneration>();
