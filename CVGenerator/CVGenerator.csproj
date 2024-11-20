@@ -10,15 +10,6 @@
     <PackageReference Include="dinktopdf" Version="1.0.8" />
     <PackageReference Include="DinkToPdfCopy" Version="1.0.0" />
     <PackageReference Include="DinkToPdfIncludesDependencies" Version="1.0.8" />
-    <PackageReference Include="IronPdf" Version="2024.11.4" />
-    <PackageReference Include="IronPdf.Extensions.Blazor" Version="2024.5.2" />
-    <PackageReference Include="IronPdf.Extensions.Razor" Version="2024.5.2" />
-    <PackageReference Include="IronPdf.Linux" Version="2024.11.4" />
-    <PackageReference Include="IronSoftware.Common" Version="2024.9.38" />
-    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
-    <PackageReference Include="pdfsharp" Version="6.1.1" />
-    <PackageReference Include="PDFsharp-MigraDoc-WPF" Version="6.2.0-preview-1" />
-    <PackageReference Include="questpdf" Version="2024.10.3" />
     <PackageReference Include="Razor.Templating.Core" Version="2.1.0" />
     <PackageReference Include="RazorEngineCore" Version="2024.4.1" />
   </ItemGroup>
