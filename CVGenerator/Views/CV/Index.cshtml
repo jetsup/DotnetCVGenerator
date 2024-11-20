@@ -1,0 +1,71 @@
+@{
+    ViewData["Title"] = "Create CV";
+}
+
+<div>
+    <h1 class="text-center display-4">Prepare CV</h1>
+
+    <form action="@Url.Action("Preview", "CV")" method="post" class="form">
+        <div class="form-group md-4">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name" name="name" required placeholder="Full Name">
+        </div>
+
+        <div class="form-group md-4">
+            <label for="phone" class="form-label">Contact</label>
+            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Phone Number">
+        </div>
+
+        <div class="form-group md-4">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required placeholder="Email Address">
+        </div>
+
+        <div class="form-group md-4">
+            <label for="address" class="form-label">Address</label>
+            <input class="form-control" id="address" name="address" required placeholder="Town,City,County" rows="10">
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label for="professional-summary" class="form-label">Professional Summary (each in a new line)</label>
+            <textarea class="form-control" id="professional_summary" name="ProfessionalSummary" required placeholder="A brief description of the user's skills, expertise, and career objectives..." rows="10"></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label for="work-experience" class="form-label">Work Experience (CSV: title,company,date of employment,expertise)</label>
+            <textarea class="form-control" id="work_experience" name="WorkExperience" required placeholder="List of jobs with details including job title, company name, dates of employment, A brief description of the user's skills, expertise, and career objectives and job description..." rows="10"></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label for="education-background" class="form-label">Education Background (CSV each on A new line: institution,certification,graduation date)</label>
+            <textarea class="form-control" id="education_background" name="EducationBackground" required placeholder="List of schools with details including degree, institution name, and graduation date..." rows="10"></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label for="skills" class="form-label">Skills (each skills including A new line)</label>
+            <textarea class="form-control" id="skills" name="Skills" required placeholder="List of professional skills..." rows="10"></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label for="languages" class="form-label">Language (language,proficiency) each including A new line</label>
+            <textarea class="form-control" id="languages" name="Languages" required placeholder="List of languages spoken with proficiency level..." rows="10"></textarea>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <button type="submit" class="btn btn-primary">Preview CV</button>
+        </div>
+
+    </form>
+</div>

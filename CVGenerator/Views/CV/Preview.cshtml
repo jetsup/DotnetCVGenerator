@@ -1,0 +1,159 @@
+@using System.Linq;
+
+@{
+    Layout = null; // Ensure the layout is not used
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Name's CV</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+        }
+
+        .header {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .section-title {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .list-group-item {
+            background-color: transparent;
+            border: none;
+            padding: 5px 0;
+        }
+
+        .skill-level {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container my-5">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>@Model.Name</h1>
+            <p>@Model.Email | @Model.Phone</p>
+            <p>@Model.Address</p>
+        </div>
+
+        <!-- Professional Summary -->
+        <div class="mt-4">
+            <h2 class="section-title">Professional Summary</h2>
+            <p class="mb-3">
+                A results-driven professional with extensive experience in diverse roles, including network engineering and software development. 
+                Known for delivering robust solutions that meet client needs while adhering to tight deadlines. Below are highlights of my career:
+            </p>
+            <ul class="list-group">
+                @foreach (var item in @Model.ProfessionalSummary.Split("\n"))
+                {
+                        <li class="list-group-item">
+                            <i class="bi bi-chevron-right text-primary"></i> @item
+                        </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Work Experience -->
+        <div class="mt-4">
+            <h2 class="section-title">Work Experience</h2>
+            <p class="mb-3">
+                Over the years, I have honed my expertise through various roles, contributing to world-class organizations. My experience spans 
+                software development, web development, and IT operations. Below are some notable roles I’ve undertaken:
+            </p>
+            <ul class="list-group">
+                @foreach (var experience in @Model.WorkExperience.Split("\n"))
+                {
+                    var details = experience.Split(',');
+                        <li class="list-group-item">
+                            <strong>@details[0]</strong> at @details[1] <br>
+                            <small>@details[2]</small>
+                        </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Education -->
+        <div class="mt-4">
+            <h2 class="section-title">Education</h2>
+            <p class="mb-3">
+                My academic journey has laid a strong foundation for my professional growth. With a focus on computer science and IT, 
+                I have cultivated the technical expertise and analytical skills needed to thrive in the tech industry. Highlights of my education include:
+            </p>
+            <ul class="list-group">
+                @foreach (var education in @Model.EducationBackground.Split("\n"))
+                {
+                    var details = education.Split(',');
+                        <li class="list-group-item">
+                            <strong>@details[0]</strong> <br>
+                        @details[1], Class of @details[2]
+                        </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Skills -->
+        <div class="mt-4">
+            <h2 class="section-title">Skills</h2>
+            <p class="mb-3">
+                Throughout my career, I have developed a diverse skill set that encompasses coding, design, and writing. 
+                My commitment to continuous learning has enabled me to excel in both technical and creative domains. Key skills include:
+            </p>
+            <ul class="list-group">
+                @foreach (var skill in @Model.Skills.Split("\n"))
+                {
+                    var details = skill.Split(',');
+                        <li class="list-group-item">
+                        @details[0] <span class="skill-level">(@details[1])</span>
+                        </li>
+                }
+            </ul>
+        </div>
+
+        <!-- Languages -->
+        <div class="mt-4">
+            <h2 class="section-title">Languages</h2>
+            <p class="mb-3">
+                Effective communication is a cornerstone of my professional and personal life. I am proficient in several languages, enabling me to engage with diverse teams and clients effectively. My language skills include:
+            </p>
+            <ul class="list-group">
+                @foreach (var language in @Model.Languages.Split("\n"))
+                {
+                    var details = language.Split(',');
+                        <li class="list-group-item">
+                        @details[0] <span class="skill-level">(@details[1] proficiency)</span>
+                        </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @if (Context.Request.Path == "/cv/preview")
+    {
+        @* place the buttons one on left the other in the right *@
+        <div class="container text-center mb-4 justify-content-between">
+            <a href="/cv/" class="btn btn-primary me-5" style="min-width: 150px;">Back</a>
+            <a href="/cv/pdf" class="btn btn-success ms-5" style="min-width: 150px;">Download CV</a>
+        </div>
+    }
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/_framework/aspnetcore-browser-refresh.js"></script>
+</body>
+
+</html>
