@@ -9,7 +9,7 @@ This is a simple CV generator that takes input from the user and generates a dow
 1. Clone the repository
 
 ```bash
-git clone https
+https://github.com/jetsup/DotnetCVGenerator.git
 ```
 
 2. Install the dependencies
