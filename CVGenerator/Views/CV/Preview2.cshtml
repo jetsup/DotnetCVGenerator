@@ -7,7 +7,8 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+@* make the body to match A4 page size *@
+<head style="width: 21cm; height: 29.7cm; margin: 0 auto; padding: 0;">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.Name's CV</title>
@@ -62,7 +63,8 @@
     </style>
 </head>
 
-<body>
+@* make the body size to A4 size *@
+<body style="width: 25cm; margin: 0 auto; padding: 0;">
     <div class="header">
         <h1>@Model.Name</h1>
         <p>@Model.Email | @Model.Phone | @Model.Address</p>
@@ -75,9 +77,7 @@
             <p>@Model.ProfessionalSummary</p>
         </div>
 
-        <!-- Two-Column Section -->
         <div class="row">
-            <div class="col-md-6">
                 <h2 class="section-title">Work Experience</h2>
                 <ul class="list-unstyled">
                     @foreach (var experience in @Model.WorkExperience.Split("\n"))
@@ -90,7 +90,8 @@
                     }
                 </ul>
             </div>
-            <div class="col-md-6">
+            
+            <div class="row">
                 <h2 class="section-title">Education</h2>
                 <ul class="list-unstyled">
                     @foreach (var education in @Model.EducationBackground.Split("\n"))
@@ -103,11 +104,9 @@
                     }
                 </ul>
             </div>
-        </div>
 
         <!-- Skills and Languages -->
         <div class="row">
-            <div class="col-md-6">
                 <h2 class="section-title">Skills</h2>
                 <ul class="list-unstyled">
                     @foreach (var skill in @Model.Skills.Split("\n"))
@@ -117,7 +116,8 @@
                     }
                 </ul>
             </div>
-            <div class="col-md-6">
+            
+            <div class="row">
                 <h2 class="section-title">Languages</h2>
                 <ul class="list-unstyled">
                     @foreach (var language in @Model.Languages.Split("\n"))
@@ -127,14 +127,17 @@
                     }
                 </ul>
             </div>
-        </div>
 
-        @if (Context.Request.Path == "/cv/preview")
+        @if (Context.Request.Path.Value.ToLower().StartsWith("/cv/preview"))
         {
             @* place the buttons one on left the other in the right *@
             <div class="container text-center mb-4 justify-content-between">
-                <a href="/cv/" class="btn btn-primary me-5" style="min-width: 150px;">Back</a>
-                <a href="/cv/pdf" class="btn btn-success ms-5" style="min-width: 150px;">Download CV</a>
+                <a href="/cv/" class="btn btn-primary me-5" style="min-width: 120px;">Back</a>
+                @* // TODO: Get the number of view and generate below links automatically *@
+                <a href="/cv/preview/1" class="btn btn-primary me-5" style="min-width: 120px;">Preview 1</a>
+                <a href="/cv/preview/2" class="btn btn-primary me-5" style="min-width: 120px;">Preview 2</a>
+                <a href="/cv/preview/3" class="btn btn-primary me-5" style="min-width: 120px;">Preview 3</a>
+                <a href="/cv/pdf/2" class="btn btn-success ms-5" style="min-width: 120px;">Download CV</a>
             </div>
         }
 

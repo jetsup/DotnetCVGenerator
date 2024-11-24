@@ -8,6 +8,7 @@ public class CvController : Controller
     // accessible through out the program FIXME: not ideal for use if system has multiple users
     public static CVModel cvDataModel = new();
     private readonly ILogger<CvController> _logger;
+    public static readonly int NUMBER_OF_PREVIEW_PAGES = 3;
 
     public CvController(ILogger<CvController> logger)
     {
@@ -19,6 +20,8 @@ public class CvController : Controller
         return View();
     }
 
+    // change the Preview to links: http://localhost:5000/Cv/Preview
+    [HttpPost("/Cv/Preview")]
     public IActionResult Preview(CVModel cvModel)
     {
         // Check if the model is valid. If it is, assign the model to the cvDataModel.
@@ -48,5 +51,18 @@ public class CvController : Controller
             _logger.LogError("Error:" + ModelState.Values);
             return RedirectToAction("Index");
         }
+    }
+
+    // change the Preview to links: http://localhost:5000/Cv/Preview/previewID
+    [HttpGet("/Cv/Preview/{id:int}")]
+    public IActionResult Preview(int id)
+    {
+        var previewName = "Preview";
+        if (id > 1 && id <= NUMBER_OF_PREVIEW_PAGES)
+        {
+            previewName += id;
+        }
+
+        return PartialView(previewName, cvDataModel);
     }
 }

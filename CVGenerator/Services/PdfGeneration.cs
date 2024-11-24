@@ -19,7 +19,7 @@ namespace CVGenerator.Services
             _converter = converter;
         }
 
-        public async Task<byte[]> GenerateAlphaPdf(/*string html*/)
+        public async Task<byte[]> GenerateAlphaPdf(int previewID = 1)
         {
             // Set the global settings for the PDF
             var globalSettings = new GlobalSettings
@@ -34,8 +34,15 @@ namespace CVGenerator.Services
             // Get the CV data model. This is the data that was entered in the form.
             var cvDataModel = CvController.cvDataModel;
 
+            // Check if the preview ID is valid. If it is, set the preview name.
+            var previewName = "Preview";
+            if (previewID > 1 && previewID <= CvController.NUMBER_OF_PREVIEW_PAGES)
+            {
+                previewName = "Preview" + previewID;
+            }
+
             // Render the HTML using the Razor template engine
-            var html = await RazorTemplateEngine.RenderPartialAsync("Views/CV/Preview.cshtml", cvDataModel, null);
+            var html = await RazorTemplateEngine.RenderPartialAsync("Views/CV/" + previewName + ".cshtml", cvDataModel, null);
 
             // Set the object settings for the PDF. This includes the HTML content and the web settings.
             var objectSettings = new ObjectSettings
