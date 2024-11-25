@@ -19,7 +19,7 @@ jobs:
     - name: Add dotnet-sdk-9 backports
       run: sudo add-apt-repository ppa:dotnet/backports
     - name: Install dotnet-sdk-9
-      run: apt-get update && apt-get install -y dotnet-sdk-9.0
+      run: sudo apt-get update && sudo apt-get install -y dotnet-sdk-9.0
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
