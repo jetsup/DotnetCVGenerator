@@ -16,13 +16,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    # - name: Setup .NET
-      # uses: actions/setup-dotnet@v4
-      # with:
-        # dotnet-version: 8.0.x
     - name: Add dotnet-sdk-9 backports
       run: sudo add-apt-repository ppa:dotnet/backports
-    -name: Install dotnet-sdk-9
+    - name: Install dotnet-sdk-9
       run: apt-get update && apt-get install -y dotnet-sdk-9.0
     - name: Restore dependencies
       run: dotnet restore
