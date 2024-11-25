@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using CVGenerator.Utils;
 
 namespace CVGenerator.ViewModels
 {
     public class RegisterVM
     {
-        [Required(ErrorMessage = "Name is required in the format 'First [Surname] Last'")]
+        [NameValidation]
         public string Name { get; set; } = "";
 
         [Required(ErrorMessage = "Email is required")]
@@ -16,7 +17,7 @@ namespace CVGenerator.ViewModels
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; } = "";
 
-        [Required(ErrorMessage = "Address is required in the format 'Town, City, Country'")]    
+        [AddressValidation]
         public string Address { get; set; } = "";
     }
 }
