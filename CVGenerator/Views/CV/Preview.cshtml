@@ -145,14 +145,22 @@
 
     @if (Context.Request.Path.Value.ToLower().StartsWith("/cv/preview"))
     {
-        @* place the buttons one on left the other in the right *@
+        var previewID = int.Parse(Context.Request.Path.Value.Split("/").Last());
+        
         <div class="container text-center mb-4 justify-content-between">
             <a href="/cv/" class="btn btn-primary me-5" style="min-width: 120px;">Back</a>
-            @* // TODO: Get the number of view and generate below links automatically *@
-            <a href="/cv/preview/1" class="btn btn-primary me-5" style="min-width: 120px;">Preview 1</a>
-            <a href="/cv/preview/2" class="btn btn-primary me-5" style="min-width: 120px;">Preview 2</a>
-            <a href="/cv/preview/3" class="btn btn-primary me-5" style="min-width: 120px;">Preview 3</a>
-            <a href="/cv/pdf/1" class="btn btn-success ms-5" style="min-width: 120px;">Download CV</a>
+            @for (int i = 1; i <= 3; i++)
+            {
+                if (i == previewID)
+                {
+                    <a href="/cv/preview/@i" class="btn btn-primary me-5" style="min-width: 120px;">Preview @i</a>
+                }
+                else
+                {
+                    <a href="/cv/preview/@i" class="btn btn-outline-primary me-5" style="min-width: 120px;">Preview @i</a>
+                }
+            }
+            <a href="/cv/pdf/@previewID" class="btn btn-success ms-5" style="min-width: 120px;">Download CV</a>
         </div>
     }
 
