@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Database connection
 var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddIdentity<AppUser, IdentityRole>(
@@ -21,6 +22,12 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(
         options.User.RequireUniqueEmail = true;
     }
 ).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+
+// Validation
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation().AddViewOptions(options =>
+{
+    options.HtmlHelperOptions.ClientValidationEnabled = true;
+});
 
 builder.Services.AddSingleton<IConverter, SynchronizedConverter>(_ => new SynchronizedConverter(new PdfTools()));
 // Add PdfGeneration to the DI container

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using CVGenerator.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace CVGenerator.Controllers;
 
@@ -10,46 +11,64 @@ public class CvController : Controller
     private readonly ILogger<CvController> _logger;
     public static readonly int NUMBER_OF_PREVIEW_PAGES = 3;
 
-    public CvController(ILogger<CvController> logger)
+    private readonly UserManager<AppUser> _userManager;
+
+    public CvController(ILogger<CvController> logger, UserManager<AppUser> userManager)
     {
         _logger = logger;
+        _userManager = userManager;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        // if user is logged in, initialize the cvDataModel with the user's from AppUser model data if not yet initialized
+        if (User.Identity.IsAuthenticated)
+        {
+            var user = await _userManager.GetUserAsync(User); // Get the logged-in user
+            cvDataModel.Name = user.Name;
+            cvDataModel.Email = user.Email;
+            cvDataModel.Phone = user.PhoneNumber;
+            cvDataModel.Address = user.Address;
+            cvDataModel.ProfessionalSummary = user.ProfessionalSummary;
+            cvDataModel.WorkExperience = user.WorkExperience;
+            cvDataModel.EducationBackground = user.Education;
+            cvDataModel.Languages = user.Languages;
+            cvDataModel.Skills = user.Skills;
+
+            return View(cvDataModel);
+        }
         return View();
     }
 
-    // change the Preview to links: http://localhost:5000/Cv/Preview
-    [HttpPost("/Cv/Preview")]
-    public IActionResult Preview(CVModel cvModel)
+    [HttpPost]
+    public async Task<IActionResult> Index(CVModel cvModel)
     {
-        // Check if the model is valid. If it is, assign the model to the cvDataModel.
         if (ModelState.IsValid)
         {
+            // update the logged in user info with this new data
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                user.Name = cvModel.Name;
+                user.Email = cvModel.Email;
+                user.PhoneNumber = cvModel.Phone;
+                user.Address = cvModel.Address;
+                user.ProfessionalSummary = cvModel.ProfessionalSummary;
+                user.WorkExperience = cvModel.WorkExperience;
+                user.Education = cvModel.EducationBackground;
+                user.Languages = cvModel.Languages;
+                user.Skills = cvModel.Skills;
+
+                await _userManager.UpdateAsync(user);
+            }
+
             cvDataModel = cvModel;
-
-            // Trims and removes extra newlines from text fields.
-            cvModel.ProfessionalSummary = cvModel.ProfessionalSummary.Trim().Trim('\n');
-            cvModel.WorkExperience = cvModel.WorkExperience.Trim().Trim('\n');
-            cvModel.EducationBackground = cvModel.EducationBackground.Trim().Trim('\n');
-            cvModel.Skills = cvModel.Skills.Trim().Trim('\n');
-            cvModel.Languages = cvModel.Languages.Trim().Trim('\n');
-
-            _logger.LogInformation("Professional:>" + cvModel.ProfessionalSummary + "<\n");
-            _logger.LogInformation("Experience:>" + cvModel.WorkExperience + "<\n");
-            _logger.LogInformation("Education:>" + cvModel.EducationBackground + "<\n");
-            _logger.LogInformation("Skills:>" + cvModel.Skills + "<\n");
-            _logger.LogInformation("Languages:>" + cvModel.Languages + "<\n");
-
-            return PartialView("Preview", cvDataModel); // remove the layout
-
-            // return View("Preview", cvDataModel); // has the layout
+            
+            return RedirectToAction("Preview", new { id = 1 });
         }
         else
         {
-            _logger.LogError("Error:" + ModelState.Values);
-            return RedirectToAction("Index");
+            return View(cvModel);
         }
     }
 

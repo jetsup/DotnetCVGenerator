@@ -7,69 +7,89 @@
 <div style="margin-bottom: 80px;">
     <h1 class="text-center display-4">Prepare CV</h1>
 
-    <form action="@Url.Action("Preview", "CV")" method="post" class="form" onsubmit="return verifyFormEntries(event);">
+    <form action="@Url.Action("Index", "CV")" method="post" class="form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <div class="form-group md-4">
-            <label for="name" class="form-label">Name</label>
-            @* TODO: recover the previous data in case of redirect *@
-            <input type="text" class="form-control" id="name" name="name" required placeholder="Full Name">
+            <label asp-for="Name" class="col-form-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="form-group md-4">
-            <label for="phone" class="form-label">Contact</label>
-            <input type="tel" class="form-control" id="phone" name="phone" required placeholder="Phone Number">
+            <label asp-for="Phone" class="col-form-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Phone" class="form-control" placeholder="Phone Number" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="form-group md-4">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" required placeholder="Email Address">
+            <label asp-for="Email" class="col-form-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Email" class="form-control" placeholder="Email Address" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
         </div>
 
         <div class="form-group md-4">
-            <label for="address" class="form-label">Address</label>
-            <input class="form-control" id="address" name="address" required placeholder="Town,City,County" rows="10">
-            <span asp-validation-for="Address" class="text-danger"></span>
-        </div>
-
-        <hr />
-
-        <div class="form-group md-4">
-            <label for="professional-summary" class="form-label">Professional Summary (each in a new line)</label>
-            <textarea class="form-control" id="professional_summary" name="ProfessionalSummary" required 
-             placeholder="A brief description of the user's skills, expertise, and career objectives..." rows="10"></textarea>
-        </div>
-
-        <hr />
-
-        <div class="form-group md-4">
-            <label for="work-experience" class="form-label">Work Experience (CSV: title,company,date of employment,expertise)</label>
-            <textarea class="form-control" id="work_experience" name="WorkExperience" required
-             placeholder="List of jobs with details including job title, company name, dates of employment, A brief description of the user's skills, expertise, and career objectives and job description..." 
-             rows="10"></textarea>
+            <label asp-for="Address" class="col-form-label"></label>
+            <div class="col-md-12">
+                <input asp-for="Address" class="form-control" placeholder="Town,City,County" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
         </div>
 
         <hr />
 
         <div class="form-group md-4">
-            <label for="education_background" class="form-label">Education Background (CSV each on A new line: institution,certification,graduation date)</label>
-            <textarea class="form-control" id="education_background" name="EducationBackground" required 
-            placeholder="List of schools with details including degree, institution name, and graduation date..." 
-            rows="10"></textarea>
+            <label asp-for="ProfessionalSummary" class="col-form-label"></label>
+            <div class="col-md-12">
+                <textarea asp-for="ProfessionalSummary" class="form-control" placeholder="A brief description of the user's skills, expertise, and career objectives..." rows="10"></textarea>
+                <span asp-validation-for="ProfessionalSummary" class="text-danger"></span>
+            </div>
         </div>
 
         <hr />
 
         <div class="form-group md-4">
-            <label for="skills" class="form-label">Skills (each skills including A new line)</label>
-            <textarea class="form-control" id="skills" name="Skills" required
-             placeholder="List of professional skills..." rows="10"></textarea>
+            <label asp-for="WorkExperience" class="col-form-label"></label>
+            <div class="col-md-12">
+                <textarea asp-for="WorkExperience" class="form-control" placeholder="List of jobs with details including job title, company name, dates of employment, A brief description of the user's skills, expertise, and career objectives and job description..." rows="10"></textarea>
+                <span asp-validation-for="WorkExperience" class="text-danger"></span>
+            </div>
         </div>
 
         <hr />
 
         <div class="form-group md-4">
-            <label for="languages" class="form-label">Language (language,proficiency) each including A new line</label>
-            <textarea class="form-control" id="languages" name="Languages" required 
-            placeholder="List of languages spoken with proficiency level..." rows="10"></textarea>
+            <label asp-for="EducationBackground" class="col-form-label"></label>
+            <div class="col-md-12">
+                <textarea asp-for="EducationBackground" class="form-control" placeholder="List of schools with details including degree, institution name, and graduation date..." rows="10"></textarea>
+                <span asp-validation-for="EducationBackground" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label asp-for="Skills" class="col-form-label"></label>
+            <div class="col-md-12">
+                <textarea asp-for="Skills" class="form-control" placeholder="List of professional skills..." rows="10"></textarea>
+                <span asp-validation-for="Skills" class="text-danger"></span>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group md-4">
+            <label asp-for="Languages" class="col-form-label"></label>
+            <div class="col-md-12">
+                <textarea asp-for="Languages" class="form-control" placeholder="List of languages spoken with proficiency level..." rows="10"></textarea>
+                <span asp-validation-for="Languages" class="text-danger"></span>
+            </div>
         </div>
 
         <hr />
@@ -79,108 +99,10 @@
         </div>
 
     </form>
-
-    <script>
-        function verifyFormEntries(event) {
-            // Prevent the form submission to allow validation
-            @* event.preventDefault(); *@
-
-            var name = document.getElementById("name").value;
-            var phone = document.getElementById("phone").value;
-            var email = document.getElementById("email").value;
-
-            var address = document.getElementById("address").value; // Town, City, Country
-            var professionalSummary = document.getElementById("professional_summary").value.split("\n"); // description of your skills, expertise, and career objectives
-            var workExperience = document.getElementById("work_experience").value.split("\n"); // title, company, date of employment, expertise
-            var educationBackground = document.getElementById("education_background").value.split("\n"); // institution, certification, graduation date
-            var skills = document.getElementById("skills").value.split("\n"); // skill, level of proficiency
-            var languages = document.getElementById("languages").value.split("\n"); // language, level of proficiency
-
-            // address meets the criteria
-            if (address.split(",").length != 3) {
-                alert("Address should be in the format: Town, City, Country");
-
-                document.getElementById("address").focus();
-                return false;
-            }
-
-            // professionalSummary is not empty
-            if (professionalSummary == "") {
-                alert("Professional Summary should not be empty");
-
-                document.getElementById("professional_summary").focus();
-                return false;
-            }
-
-            // workExperience is not empty and meets the criteria
-            if (workExperience == "") {
-                alert("Work Experience should not be empty");
-
-                document.getElementById("work_experience").focus();
-                return false;
-            }
-            // loop through the workExperience array to check if each element at least 3 elements
-            for (let i = 0; i < workExperience.length; i++) {
-                if (workExperience[i].split(",").length < 3/*4*/) {
-                    alert("Work Experience should be in the format: title, company, date of employment, expertise");
-
-                    document.getElementById("work_experience").focus();
-                    return false;
-                }
-            }
-
-            // educationBackground is not empty and meets the criteria
-            if (educationBackground == "") {
-                alert("Education Background should not be empty");
-
-                document.getElementById("education_background").focus();
-                return false;
-            } 
-            // loop through the educationBackground array to check if each element at least 3 elements
-            for (let i = 0; i < educationBackground.length; i++) {
-                if (educationBackground[i].split(",").length != 3) {
-                    alert("Education Background should be in the format: institution, certification, graduation date");
-
-                    document.getElementById("education_background").focus();
-                    return false;
-                }
-            }
-
-            // If skills is not empty
-            if (skills == "") {
-                alert("Skills should not be empty");
-
-                document.getElementById("skills").focus();
-                return false;
-            }
-            // loop through the skills array to check if each element at least 2 elements
-            for (let i = 0; i < skills.length; i++) {
-                if (skills[i].split(",").length != 2) {
-                    alert("Skills should be in the format: skill, level of proficiency");
-
-                    document.getElementById("skills").focus();
-                    return false;
-                }
-            }
-
-            // If languages is not empty
-            if (languages == "") {
-                alert("Languages should not be empty");
-
-                document.getElementById("languages").focus();
-                return false;
-            }
-            // loop through the languages array to check if each element at least 2 elements
-            for (let i = 0; i < languages.length; i++) {
-                if (languages[i].split(",").length != 2) {
-                    alert("Languages should be in the format: language, level of proficiency");
-
-                    document.getElementById("languages").focus();
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    </script>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
